@@ -48,15 +48,43 @@ const CountryDetail: React.FunctionComponent<CountryDetailProps> = ({
         svg {
           margin: 0 auto;
         }
+
+        .back-to-top {
+          position: fixed;
+          display: inline-block;
+          width: 2rem;
+          line-height: 2rem;
+          font-size: 2rem;
+          text-decoration: none;
+          text-align: center;
+          left: 1rem;
+          bottom: 1rem;
+          background: white;
+          border: 1px solid gray;
+          color: inherit;
+          box-shadow: white 0 0 8px 4px;
+        }
       `}</style>
       <Link href="/">
-        <a>back to index</a>
+        <a
+          style={{
+            display: "block",
+            width: "100vw",
+            textAlign: "center",
+            lineHeight: "3rem",
+          }}
+        >
+          back to index
+        </a>
       </Link>
       <h1>{country.name}</h1>
 
       <CountryDetailsChart details={details} />
       <hr />
       <CountryDetailsTable details={details} />
+      <a className="back-to-top" href="#">
+        ↥
+      </a>
     </>
   ) : null;
 

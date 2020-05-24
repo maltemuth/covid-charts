@@ -8,7 +8,7 @@ const PageHead: React.FunctionComponent<PageHeadProps> = ({ title }) => (
   <>
     <Head>
       <title>{title}</title>
-      <meta name="viewport" content="device-width"/>
+      <meta name="viewport" content="width=device-width; initial-scale=1.0"/>
       <link rel="icon" href="/favicon.ico" />
       <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"

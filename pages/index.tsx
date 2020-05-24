@@ -25,10 +25,33 @@ const CountryList: React.FunctionComponent<{ countries: Country[] }> = ({
 
   return (
     <div className="container">
+      <style jsx>{`
+      .container {
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      ul li {
+        list-style: none;
+        line-height: 2rem;
+      }
+
+      input {
+        font-size: 1.25rem;
+        text-align: center;
+        border: 0;
+        border-bottom: 1px solid gray;
+        -webkit-appearance: none;
+      }
+
+      input::-webkit-search-cancel-button {
+        display: none;
+      }
+      `}</style>
       <PageHead title="Country Index" />
       
       <h1>Country Index</h1>
-      <input type="search" onChange={ event  => setSearchTerm(event.target.value)}></input>
+      <input type="search" placeholder="search countries" onChange={ event  => setSearchTerm(event.target.value)}></input>
       <ul>
         {filteredCountries.slice(0, MAX_COUNTRIES).map(({ name, slug, total }) => (
           <li key={slug}>

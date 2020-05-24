@@ -43,18 +43,19 @@ const DetailCell: React.FunctionComponent<DetailCellProps> = ({
 const CountryDetailsTable: React.FunctionComponent<CountryDetailsTableProps> = ({
   details,
 }) => (
+  <div style={{overflowX: 'scroll'}}>
   <table>
     <style jsx>{`
       table {
         border-spacing: 0;
         border-collapse: collapse;
         margin: 0 auto;
+        max-width: 100vw;
       }
     `}</style>
     <thead>
       <tr>
-        <th>date</th>
-        <th>index</th>
+        <th>date / index</th>
         <th>active</th>
         <th>confirmed</th>
         <th>recovered</th>
@@ -78,8 +79,7 @@ const CountryDetailsTable: React.FunctionComponent<CountryDetailsTableProps> = (
           index
         ) => (
           <tr key={timestamp}>
-            <td>{new Date(timestamp).toLocaleDateString()}</td>
-            <td>#{index}</td>
+            <td>{new Date(timestamp).toLocaleDateString()} / #{index}</td>
             <DetailCell delta={deltaActive} value={active} />
             <DetailCell delta={deltaConfirmed} value={confirmed} />
             <DetailCell delta={deltaRecovered} value={recovered} />
@@ -89,6 +89,7 @@ const CountryDetailsTable: React.FunctionComponent<CountryDetailsTableProps> = (
       )}
     </tbody>
   </table>
+  </div>
 );
 
 export default CountryDetailsTable;

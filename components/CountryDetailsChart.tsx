@@ -122,7 +122,7 @@ const CountryDetailsChart: React.FunctionComponent<CountryDetailsChartProps> = (
   const maximum = Math.max(...Object.values(maxima));
 
   return (
-    <svg viewBox={`-20 -20 ${width + 40} ${height + 40}`} style={{width: '100vw'}}>
+    <svg viewBox={`-20 -20 ${width + 40} ${height + 40}`}>
       <Lines
         height={height}
         offset={0}
