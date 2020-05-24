@@ -2,10 +2,12 @@ import Link from "next/link";
 import PageHead from "../components/PageHead";
 import getCountryList from "../model/country/getCountryList";
 import { Country } from "../model/country/Country";
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
+import { GetStaticProps } from "next";
 
-const getStaticProps = async () => ({
+const getStaticProps: GetStaticProps = async () => ({
   props: { countries: await getCountryList() },
+  unstable_revalidate: 3600,
 });
 
 export { getStaticProps };

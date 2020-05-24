@@ -6,11 +6,12 @@ import getCountryList from "../../model/country/getCountryList";
 import { Country } from "../../model/country/Country";
 import CountryDetailsTable from "../../components/CountryDetailsTable";
 import CountryDetailsChart from "../../components/CountryDetailsChart";
+import { GetStaticProps, GetStaticPaths } from "next";
 
-export const getStaticProps = async ({
+export const getStaticProps: GetStaticProps = async ({
   params: { slug },
-}): Promise<{ props: CountryDetailProps }> => {
-  const details = await getCountryDetailList(slug);
+}) => {
+  const details = await getCountryDetailList(slug as string);
   const countries = await getCountryList();
   const country = countries.find((entry) => entry.slug === slug);
   return {
@@ -18,10 +19,11 @@ export const getStaticProps = async ({
       country,
       details,
     },
+    unstable_revalidate: 3600,
   };
 };
 
-export const getStaticPaths = async () => ({
+export const getStaticPaths: GetStaticPaths = async () => ({
   paths: await getCountryList().then((countries) =>
     countries.map(({ slug }) => `/country/${slug}`)
   ),
