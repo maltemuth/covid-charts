@@ -13,7 +13,6 @@ interface LinesProps {
   maximum: number;
   includeCircles?: boolean;
   includeLines?: boolean;
-  lineStyle?: string;
 }
 
 const xCalculator = (width: number) => (index: number): number =>
@@ -42,8 +41,6 @@ const Lines: React.FunctionComponent<LinesProps> = ({
   color,
   includeCircles = true,
   includeLines = false,
-
-  lineStyle = "solid",
 }) => {
   const calculateX = xCalculator(width);
   const calculateY = yCalculator(height, maximum);
@@ -125,7 +122,7 @@ const CountryDetailsChart: React.FunctionComponent<CountryDetailsChartProps> = (
   const maximum = Math.max(...Object.values(maxima));
 
   return (
-    <svg viewBox={`-20 -20 ${width + 40} ${height + 40}`}>
+    <svg viewBox={`-20 -20 ${width + 40} ${height + 40}`} style={{width: '100vw'}}>
       <Lines
         height={height}
         offset={0}
