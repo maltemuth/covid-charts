@@ -1,4 +1,5 @@
 import { CountryDetails } from "../model/countryDetails/CountryDetails";
+import { COLOR_ACTIVE, COLOR_CONFIRMED, COLOR_RECOVERED, COLOR_DECEASED } from "../model/countryDetails/colors";
 
 interface CountryDetailsChartProps {
   details: CountryDetails[];
@@ -124,41 +125,46 @@ const CountryDetailsChart: React.FunctionComponent<CountryDetailsChartProps> = (
   return (
     <svg viewBox={`-20 -20 ${width + 40} ${height + 40}`}>
       <Lines
+        key="values.active"
         height={height}
         offset={0}
-        color="pink"
+        color={COLOR_ACTIVE}
         width={width}
         values={values.active}
         maximum={maximum}
       />
       <Lines
+        key="values.confirmed"
         height={height}
         offset={1}
-        color="gray"
+        color={COLOR_CONFIRMED}
         width={width}
         values={values.confirmed}
         maximum={maximum}
       />
       <Lines
+        key="values.recovered"
         height={height}
         offset={2}
-        color="lightgreen"
+        color={COLOR_RECOVERED}
         width={width}
         values={values.recovered}
         maximum={maximum}
       />
       <Lines
+        key="values.deceased"
         height={height}
         offset={3}
-        color="black"
+        color={COLOR_DECEASED}
         width={width}
         values={values.deceased}
         maximum={maximum}
       />
       <Lines
+        key="averages.active"
         height={height}
         offset={0}
-        color="pink"
+        color={COLOR_ACTIVE}
         width={width}
         values={averages.active}
         includeCircles={false}
@@ -166,9 +172,10 @@ const CountryDetailsChart: React.FunctionComponent<CountryDetailsChartProps> = (
         maximum={maximum}
       />
       <Lines
+        key="averages.confirmed"
         height={height}
         offset={1}
-        color="gray"
+        color={COLOR_CONFIRMED}
         width={width}
         values={averages.confirmed}
         includeCircles={false}
@@ -176,9 +183,10 @@ const CountryDetailsChart: React.FunctionComponent<CountryDetailsChartProps> = (
         maximum={maximum}
       />
       <Lines
+        key="averages.recovered"
         height={height}
         offset={2}
-        color="lightgreen"
+        color={COLOR_RECOVERED}
         width={width}
         values={averages.recovered}
         includeCircles={false}
@@ -186,9 +194,10 @@ const CountryDetailsChart: React.FunctionComponent<CountryDetailsChartProps> = (
         maximum={maximum}
       />
       <Lines
+        key="averages.deceased"
         height={height}
         offset={3}
-        color="black"
+        color={COLOR_DECEASED}
         width={width}
         values={averages.deceased}
         includeCircles={false}

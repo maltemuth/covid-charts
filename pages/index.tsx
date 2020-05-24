@@ -36,6 +36,10 @@ const CountryList: React.FunctionComponent<{ countries: Country[] }> = ({
         line-height: 2rem;
       }
 
+      ul {
+        padding: 0;
+      }
+
       input {
         font-size: 1.25rem;
         text-align: center;

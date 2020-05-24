@@ -1,4 +1,5 @@
 import { CountryDetails } from "../model/countryDetails/CountryDetails";
+import { COLOR_ACTIVE, COLOR_CONFIRMED, COLOR_RECOVERED, COLOR_DECEASED } from "../model/countryDetails/colors";
 
 interface CountryDetailsTableProps {
   details: CountryDetails[];
@@ -56,10 +57,10 @@ const CountryDetailsTable: React.FunctionComponent<CountryDetailsTableProps> = (
     <thead>
       <tr>
         <th>date / index</th>
-        <th>active</th>
-        <th>confirmed</th>
-        <th>recovered</th>
-        <th>deaths</th>
+        <th style={{background: COLOR_ACTIVE}}>active</th>
+        <th style={{background: COLOR_CONFIRMED}}>confirmed</th>
+        <th style={{background: COLOR_RECOVERED}}>recovered</th>
+        <th style={{background: COLOR_DECEASED}}>deaths</th>
       </tr>
     </thead>
     <tbody>
