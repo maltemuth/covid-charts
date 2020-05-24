@@ -9,7 +9,7 @@ const getCountryDetailList = async (
       try {
         const data = await response.json();
 
-        return slug === "united-state"
+        return slug === "united-states"
           ? data.filter(({ Province }) => Province === "")
           : data;
       } catch (e) {
