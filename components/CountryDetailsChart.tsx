@@ -1,13 +1,13 @@
-import { CountryDetails } from "../model/countryDetails/CountryDetails";
 import {
   COLOR_ACTIVE,
   COLOR_CONFIRMED,
   COLOR_RECOVERED,
   COLOR_DECEASED,
-} from "../model/countryDetails/colors";
+} from "../model/colors";
+import { DataPoint } from "../model/dataPoint/DataPoint";
 
 interface CountryDetailsChartProps {
-  details: CountryDetails[];
+  details: DataPoint[];
 }
 
 const CHART_CANVAS_MARGIN_HORIZONTAL = 10;

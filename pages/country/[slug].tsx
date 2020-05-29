@@ -1,23 +1,54 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import PageHead from "../../components/PageHead";
-import { CountryDetails } from "../../model/countryDetails/CountryDetails";
-import getCountryDetailList from "../../model/countryDetails/getCountryDetailList";
+import getDataPointsBySlug from "../../model/dataPoint/getDataPointsBySlug";
 import getCountryList from "../../model/country/getCountryList";
 import { Country } from "../../model/country/Country";
 import CountryDetailsTable from "../../components/CountryDetailsTable";
 import CountryDetailsChart from "../../components/CountryDetailsChart";
 import { GetStaticProps, GetStaticPaths } from "next";
+import sumByTimestamp from "../../model/dataPoint/sumByTimestamp";
+import withDeltas from "../../model/dataPoint/withDeltas";
+import getProvinces from "../../model/dataPoint/getProvinces";
+import { DataPointWithDeltas } from "../../model/dataPoint/DataPointWithDeltas";
+import getCities from "../../model/dataPoint/getCities";
 
-export const getStaticProps: GetStaticProps = async ({
+const getUrl = (slug: string, province: string | null, city?: string | null) => {
+  const slugPart = `/country/${slug}`;
+  const provincePart = `/province/${province}`;
+  const cityPart = `/city/${city}`;
+
+  if (!province && !city) {
+    return slugPart;
+  }
+
+  if (!city) {
+    return slugPart + provincePart;
+  }
+
+  if (!province) {
+    return slugPart + cityPart;
+  }
+
+  return slugPart + provincePart + cityPart;
+};
+
+export const getStaticProps: GetStaticProps<CountryDetailProps> = async ({
   params: { slug },
 }) => {
-  const details = await getCountryDetailList(slug as string);
+  const dataPoints = await getDataPointsBySlug(slug as string);
   const countries = await getCountryList();
   const country = countries.find((entry) => entry.slug === slug);
+
+  const provinces = getProvinces(dataPoints);
+  const cities = getCities(dataPoints);
+
   return {
     props: {
       country,
-      details,
+      dataPoints: withDeltas(sumByTimestamp(dataPoints)),
+      provinces,
+      cities,
     },
     unstable_revalidate: 3600,
   };
@@ -30,16 +61,31 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
-interface CountryDetailProps {
+export interface CountryDetailProps {
   country: Country;
-  details: CountryDetails[];
+  dataPoints: DataPointWithDeltas[];
+  provinces: string[];
+  selectedProvince?: string;
+  cities: string[];
+  selectedCity?: string;
 }
 
 const CountryDetail: React.FunctionComponent<CountryDetailProps> = ({
   country,
-  details,
-}) =>
-  country && details ? (
+  dataPoints,
+  provinces,
+  selectedProvince = null,
+  cities,
+  selectedCity = null,
+}) => {
+  const router = useRouter();
+
+  if (!country || !dataPoints) {
+    return null;
+  }
+  const timeline = dataPoints;
+
+  return (
     <>
       <PageHead title={`${country.name} details`} />
       <style jsx>{`
@@ -66,6 +112,14 @@ const CountryDetail: React.FunctionComponent<CountryDetailProps> = ({
           color: inherit;
           box-shadow: white 0 0 8px 4px;
         }
+
+        .selects {
+          text-align: center;
+        }
+
+        .selects select {
+          margin: 1em;
+        }
       `}</style>
       <Link href="/">
         <a
@@ -80,14 +134,44 @@ const CountryDetail: React.FunctionComponent<CountryDetailProps> = ({
         </a>
       </Link>
       <h1>{country.name}</h1>
+      <div className="selects">
+      {provinces.length > 0 && (
+        <select
+          value={selectedProvince}
+          onChange={(event) => {
+            router.push(getUrl(country.slug, event.target.value));
+          }}
+        >
+          <option value="">all provinces</option>
+          {provinces.map((province) => (
+            <option value={province.toLowerCase()}>{province}</option>
+          ))}
+        </select>
+      )}
+      
+      {cities.length > 0 && (
+        <select
+          value={selectedCity}
+          onChange={(event) => {
+            router.push(getUrl(country.slug, selectedProvince, event.target.value));
+          }}
+        >
+          <option value="">all cities</option>
+          {cities.map((city) => (
+            <option value={city.toLowerCase()}>{city}</option>
+          ))}
+        </select>
+      )}
+      </div>
 
-      <CountryDetailsChart details={details} />
+      <CountryDetailsChart details={timeline} />
       <hr />
-      <CountryDetailsTable details={details} />
+      <CountryDetailsTable details={timeline} />
       <a className="back-to-top" href="#">
         ↥
       </a>
     </>
-  ) : null;
+  );
+};
 
 export default CountryDetail;

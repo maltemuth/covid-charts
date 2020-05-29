@@ -1,8 +1,8 @@
-import { CountryDetails } from "../model/countryDetails/CountryDetails";
-import { COLOR_ACTIVE, COLOR_CONFIRMED, COLOR_RECOVERED, COLOR_DECEASED } from "../model/countryDetails/colors";
+import { COLOR_ACTIVE, COLOR_CONFIRMED, COLOR_RECOVERED, COLOR_DECEASED } from "../model/colors";
+import { DataPointWithDeltas } from "../model/dataPoint/DataPointWithDeltas";
 
 interface CountryDetailsTableProps {
-  details: CountryDetails[];
+  details: DataPointWithDeltas[];
 }
 
 interface DetailCellProps {
